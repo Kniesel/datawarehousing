@@ -191,7 +191,15 @@ public class SeatDAO extends GenericSqlDAO<Seat, Integer> {
 			
 			ScreeningDAO scdao = new ScreeningDAO();
 			
-			Seat s = read(seat);
+			Seat s = new Seat();
+			
+			List<Seat> seats = readAllSeats();
+			for (Seat se : seats){
+				if(se.id == seat) {
+					s = read(seat);
+				}
+			}
+			
 			Screening sc = scdao.read(screening);
 			
 			try {
