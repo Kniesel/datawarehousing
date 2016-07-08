@@ -23,7 +23,6 @@ public class BookingDAO extends GenericSqlDAO<Booking, Integer>{
 	@Override
 	public Integer create(Booking newInstance) {
 		PreparedStatement stmt;
-		System.out.println(newInstance.id + "   " + newInstance.seat + "   " + newInstance.screening);
 		try {
 			stmt = conn.prepareStatement("INSERT INTO Booking (ID, FK_SCREENING, FK_SEAT) VALUES(?, ?, ?)");
 			stmt.setInt(1, newInstance.id);

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.fhj.itm.obj.Seat;
+import at.fhj.itm.utils.Check;
 
 /**
  * Data Access Object for the class Seat 
@@ -182,8 +183,10 @@ public class SeatDAO extends GenericSqlDAO<Seat, Integer> {
 
 	public boolean isFree(int seat, int screening) {
 		PreparedStatement stmt;
+		Check c = new Check();
 		
-		try {
+		if (c.seatInHall(seat, screening)) {
+			try {
 			stmt = conn.prepareStatement("SELECT * FROM BOOKING WHERE FK_SEAT = ? AND FK_SCREENING = ?");
 			stmt.setInt(1, seat);
 			stmt.setInt(2, screening);
@@ -193,16 +196,16 @@ public class SeatDAO extends GenericSqlDAO<Seat, Integer> {
 				System.out.println("seat not bookable");
 				return false;
 			}
-
 			else 
 				return true;
 				
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-			System.err.println("Booking failed.");
+			} 
+			catch (SQLException e) {
+				e.printStackTrace();
+				System.err.println("Booking failed.");
+			}
 		}
-		
+				
 		return false;     
 		
 	}

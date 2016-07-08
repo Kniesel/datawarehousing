@@ -203,9 +203,14 @@ public class DatabaseTests {
 	
 	@Test
 	public void testReserve(){
-		CustomerDAO cdao = new CustomerDAO();
-		cdao.reserve(1,1);
+		long startTime = System.currentTimeMillis();
 		
-		assertTrue(cdao.reserve(1,1) == 0);
+		CustomerDAO cdao = new CustomerDAO();
+		cdao.reserve(1,2);
+		
+		assertTrue(cdao.reserve(1,2) == 0);
+		
+		long endTime = System.currentTimeMillis();
+		System.out.println("time: " + (endTime - startTime));
 	}
 }
