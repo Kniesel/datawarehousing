@@ -8,6 +8,8 @@ import java.util.List;
 
 import at.fhj.itm.obj.Booking;
 import at.fhj.itm.obj.Customer;
+import at.fhj.itm.obj.Screening;
+import at.fhj.itm.obj.Seat;
 
 
 
@@ -160,13 +162,16 @@ public class CustomerDAO extends GenericSqlDAO<Customer, Integer>{
 	
 	public int reserve(int seat, int screening){
 		SeatDAO s = new SeatDAO();
+		ScreeningDAO sc = new ScreeningDAO();
 		BookingDAO b = new BookingDAO();
 		Booking booking = new Booking();
 		
 		int len = b.readAllBookings().size()+1;
-			
 		
-	    if (s.isFree(seat, screening)) {
+		Seat se = s.read(seat);
+		Screening scr = sc.read(screening);
+		
+	    if (s.isFree(se.id, scr.id)) {
 	     	//make booking
 	      	booking.id = len;
 	       	booking.seat = seat;

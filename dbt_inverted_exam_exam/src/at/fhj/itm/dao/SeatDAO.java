@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.fhj.itm.obj.Screening;
 import at.fhj.itm.obj.Seat;
 import at.fhj.itm.utils.Check;
 
@@ -187,10 +188,16 @@ public class SeatDAO extends GenericSqlDAO<Seat, Integer> {
 		
 		if (c.seatInHall(seat, screening)) {
 			System.out.println("seat in hall");
+			
+			ScreeningDAO scdao = new ScreeningDAO();
+			
+			Seat s = read(seat);
+			Screening sc = scdao.read(screening);
+			
 			try {
 			stmt = conn.prepareStatement("SELECT * FROM BOOKING WHERE FK_SEAT = ? AND FK_SCREENING = ?");
-			stmt.setInt(1, seat);
-			stmt.setInt(2, screening);
+			stmt.setInt(1, s.id);
+			stmt.setInt(2, sc.id);
 			ResultSet rs = stmt.executeQuery();
 			
 			if (rs.first()){
