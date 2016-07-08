@@ -162,7 +162,7 @@ public class DatabaseTests {
 		x.movie = 1;
 		x.starting_time = new Timestamp(20,7,15,0,0,0,0);
 		x.hall = 1;
-		x.id = 1001;
+		x.id = 10001;
 		mdao.create(x);
 						
 		// Jetzt muss eine Screening mehr drinnen sein als vorher

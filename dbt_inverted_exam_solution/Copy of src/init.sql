@@ -17850,5 +17850,3 @@ insert into screening (id, starting_time, fk_movie, fk_hall) values (10000, '201
 
 
 create view seatsPerScreening as SELECT se.id as seat, sc.id as screening FROM seat se inner join screening sc on se.fk_hall = sc.fk_hall;
-
-create index viewindex on seatsPerScreening(seat);
