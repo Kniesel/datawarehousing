@@ -186,6 +186,7 @@ public class SeatDAO extends GenericSqlDAO<Seat, Integer> {
 		Check c = new Check();
 		
 		if (c.seatInHall(seat, screening)) {
+			System.out.println("seat in hall");
 			try {
 			stmt = conn.prepareStatement("SELECT * FROM BOOKING WHERE FK_SEAT = ? AND FK_SCREENING = ?");
 			stmt.setInt(1, seat);
@@ -204,6 +205,7 @@ public class SeatDAO extends GenericSqlDAO<Seat, Integer> {
 				e.printStackTrace();
 				System.err.println("Booking failed.");
 			}
+			
 		}
 				
 		return false;     

@@ -162,7 +162,7 @@ public class DatabaseTests {
 		x.movie = 1;
 		x.starting_time = new Timestamp(20,7,15,0,0,0,0);
 		x.hall = 1;
-		x.id = 100;
+		x.id = 1001;
 		mdao.create(x);
 						
 		// Jetzt muss eine Screening mehr drinnen sein als vorher
@@ -206,9 +206,9 @@ public class DatabaseTests {
 		long startTime = System.currentTimeMillis();
 		
 		CustomerDAO cdao = new CustomerDAO();
-		cdao.reserve(1,2);
+		cdao.reserve(1,5);
 		
-		assertTrue(cdao.reserve(1,2) == 0);
+		assertTrue(cdao.reserve(1,5) == 0);
 		
 		long endTime = System.currentTimeMillis();
 		System.out.println("time: " + (endTime - startTime));

@@ -14,13 +14,20 @@ public class Check {
 		PreparedStatement stmt;
 		
 		try {
-			stmt = conn.prepareStatement("SELECT * FROM seat se inner join screening sc on se.fk_hall = sc.fk_hall WHERE se.id = ? AND sc.id = ?");
+			stmt = conn.prepareStatement("SELECT * FROM seatsPerScreening WHERE seat = ? AND screening = ?");
 			stmt.setInt(1, seat);
 			stmt.setInt(2, screening);
 			ResultSet rs = stmt.executeQuery();
 			
+			System.out.println("checking if seat is in hall...");
 			if (rs.first()){
+				System.out.println("in hall");
 				return true;
+			}
+			else {
+				System.out.println("not in hall");
+				return false;
+
 			}
 		
 		} catch (SQLException e) {
