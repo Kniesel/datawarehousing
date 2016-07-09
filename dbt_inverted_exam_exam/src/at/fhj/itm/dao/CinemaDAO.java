@@ -143,7 +143,7 @@ public class CinemaDAO extends GenericSqlDAO<Cinema, Integer> {
 
 	/**
 	 * gets the Cinema by name
-	 * @param name name of the Cinema
+	 * @param name of the Cinema
 	 * @return returns a Cinema object from the database
 	 */
 	public Cinema getCinema(String name) {

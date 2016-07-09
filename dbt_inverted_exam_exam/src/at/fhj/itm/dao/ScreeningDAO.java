@@ -152,8 +152,8 @@ public class ScreeningDAO extends GenericSqlDAO<Screening, Integer>{
 
 	/**
 	 * gets the Screening by combination of hall, movie and starting_time
-	 * @param hall hall that the Screening is located at
-	 * @param starting_time starting_time of the Screening
+	 * @param hall that the Screening is located at
+	 * @param starting_time of the Screening
 	 * @return returns a screening object from the database
 	 */
 	public Screening getScreening(int hall, int starting_time, int movie) {

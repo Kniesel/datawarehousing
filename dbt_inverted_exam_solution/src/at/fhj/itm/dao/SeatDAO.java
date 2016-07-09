@@ -197,7 +197,7 @@ public class SeatDAO extends GenericSqlDAO<Seat, Integer> {
 		if (c.seatInHall(seat, screening)) {
 			
 			// if seat is in hall
-			System.out.println("seat in hall");
+			System.out.println("Seat is in hall");
 			
 			try {
 				// check if a booking for a certain seat id with a certain creening id exists
@@ -208,7 +208,7 @@ public class SeatDAO extends GenericSqlDAO<Seat, Integer> {
 				
 				//if a booking exists return false
 				if (rs.first()){
-					System.out.println("seat not bookable");
+					System.out.println("Seat is not bookable");
 					return false;
 				}
 				//if no booking for this seat at this screening exists, return true

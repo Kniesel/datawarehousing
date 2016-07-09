@@ -152,8 +152,8 @@ public class HallDAO extends GenericSqlDAO<Hall, Integer> {
 	/**
 	 * gets the Hall by combination of cinema and name
 	 * 
-	 * @param cinema cinema that the hall is located at
-	 * @param name name of the hall
+	 * @param cinema that the hall is located at
+	 * @param name of the hall
 	 * @return returns a hall object from the database
 	 */
 	public Hall getHall(int cinema, String name) {

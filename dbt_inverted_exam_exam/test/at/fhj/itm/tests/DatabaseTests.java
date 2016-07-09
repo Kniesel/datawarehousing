@@ -14,142 +14,188 @@ import at.fhj.itm.dao.*;
 import at.fhj.itm.obj.*;
 import at.fhj.itm.utils.ConnectionFactory;
 
+/**
+ * Tests the database connection, all DAOs and if the accessrights are working like they should.
+ * 
+ * @author Halmschlager Tabea, Kirchmaier Johanna (and based a bit on Gerhard Hutter's project jdbc_doit-h2)
+ * 
+ */
 public class DatabaseTests {
-
+	
+	/*
+	 * connection to the database
+	 */
 	@Test
 	public void testConnectionFactory() throws SQLException {
 		Connection c = ConnectionFactory.getConnection();
 		Statement s = c.createStatement();
 		s.execute("SELECT COUNT(*) FROM MOVIE");
 		
-		// Wenn keine Exception geworfen wird ist der Test erfolgreich
+		// If no exception is thrown --> test is successful
+
 	}
 	
+	
+//--------------------------------------------------------------------------------	
+
+	/*
+	 * test CustomerDAO
+	 */
 	@Test 
 	public void testCustomerDAO()	{
 		CustomerDAO edao = new CustomerDAO();
 		
 		List<Customer> Customers_before = edao.readAllCustomers();
-
-		// Eine neue person reinspeichern
+		
+		// create a new person
 		Customer p1 = new Customer();
 		p1.firstname = "The";
 		p1.surname = "Doctor";
 		Integer newId = edao.create(p1);
 
-		// Eigentlich muss jetzt in der DB ein Eintrag mehr sein
+		// there should be a new entry in the database
 		assertTrue(Customers_before.size() < edao.readAllCustomers().size());
 		
-		// So, jetzt holen wir die Person wieder raus
+		// read new entry
 		Customer p2 = edao.read(newId);
 		assertTrue(p2.id == newId);
 		assertTrue(p2.firstname.equals("The"));
 		assertTrue(p2.surname.equals("Doctor"));
 
-		// Und jetzt löschen wir die neue Person wieder raus
+		// delete new entry
 		edao.delete(p2);
 		
-		// Jetzt ist der alte Stand widerhergestellt
+		// amount should be the same as before
 		assertTrue(Customers_before.size() == edao.readAllCustomers().size());
 		
 	}
-	
+
+
+//--------------------------------------------------------------------------------	
+
+	/*
+	 * test CinemaDAO
+	 */
 	@Test 
 	public void testCinemaDAO()
 	{
 		CinemaDAO cdao = new CinemaDAO();
 		
 		List<Cinema> original_Cinemas = cdao.readAllCinemas();
-
+		
+		// create a new cinema
 		Cinema g1 = new Cinema();
 		g1.name = "Irgendwas neues";
 		Integer newId = cdao.create(g1);
 		
-		// Eigentlich muss jetzt in der DB ein Eintrag mehr sein
+		// there should be a new entry in the database
 		assertTrue(original_Cinemas.size() < cdao.readAllCinemas().size());
 
-		// Cinema wieder aus der DB auslesen
+		// read cinema from db
 		Cinema g2 = cdao.read(newId);
 		assertTrue(g2.id == newId);
 		assertTrue(g2.name.equals(g1.name));
 		
 		
-		// Und jetzt löschen wir die neue Cinema wieder raus
+		// delete cinema
 		cdao.delete(g2);
 		
-		// Die Anzahl muss wieder gleich sein
+		// amount should be the same as before
 		assertTrue(original_Cinemas.size() == cdao.readAllCinemas().size());
 		
 	}
+
 	
+//--------------------------------------------------------------------------------	
+
+	/*
+	 * test HallDAO
+	 */
 	@Test
 	public void testHallDAO()	{
 		HallDAO hdao = new HallDAO();
 		
 		int numberOfHalls = hdao.readAllHalls().size();
 		
-		// Einen Hall hinzufügen
+		
+		// create a new hall
 		Hall x = new Hall();
 		x.name = "x";
 		x.cinema = 1;
 		hdao.create(x);
 				
-		// Jetzt muss eine Hall mehr drinnen sein als vorher
+		// there should be a new entry in the database
 		assertTrue(numberOfHalls < hdao.readAllHalls().size());
 
-		// Jetzt löschen wir den Hall wieder
+		// delete hall
 		hdao.delete(x);
 		
-		// Jetzt muss Die Anzahl wieder so sein wie vorher
+		// amount should be the same as before
 		assertTrue(numberOfHalls == hdao.readAllHalls().size());
 		
 	}
+
 	
+//--------------------------------------------------------------------------------	
+
+	/*
+	 * test SeatDAO
+	 */
 	@Test
 	public void testSeatDAO()	{
 		SeatDAO sdao = new SeatDAO();
 		
 		int numberOfSeats = sdao.readAllSeats().size();
 		
-		// Einen Seat hinzufügen
+		// create a new seat
 		Seat x = new Seat();
 		x.hall = 1;
 		sdao.create(x);
 				
-		// Jetzt muss eine Seat mehr drinnen sein als vorher
+		// check if new entry in database exists
 		assertTrue(numberOfSeats < sdao.readAllSeats().size());
 
-		// Jetzt löschen wir den Seat wieder
+		// delete seat
 		sdao.delete(x);
 		
-		// Jetzt muss Die Anzahl wieder so sein wie vorher
+		// amount should be the same as before
 		assertTrue(numberOfSeats == sdao.readAllSeats().size());
 		
 	}
-	
+
+//--------------------------------------------------------------------------------	
+
+	/*
+	 * test MovieDAO
+	 */
 	@Test
 	public void testMovieDAO()	{
 		MovieDAO mdao = new MovieDAO();
 		
 		int numberOfMovies = mdao.readAllMovies().size();
 		
-		// Einen Movie hinzufügen
+		// add a new movie
 		Movie x = new Movie();
 		x.name = "MysteryMovie";
 		mdao.create(x);
 				
-		// Jetzt muss eine Movie mehr drinnen sein als vorher
+		// there should be a new entry in the database
 		assertTrue(numberOfMovies < mdao.readAllMovies().size());
 
-		// Jetzt löschen wir den Movie wieder
+		// delete movie
 		mdao.delete(x);
 		
-		// Jetzt muss Die Anzahl wieder so sein wie vorher
+		// amount should be the same as before
 		assertTrue(numberOfMovies == mdao.readAllMovies().size());
 		
 	}
 	
 	
+//--------------------------------------------------------------------------------	
+
+	/*
+	 * test ScreeningDAO
+	 */
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testScreeningDAO()	{
@@ -157,7 +203,7 @@ public class DatabaseTests {
 		
 		int numberOfScreenings = mdao.readAllScreenings().size();
 		
-		// Einen Screening hinzufügen
+		// add a new screening
 		Screening x = new Screening();
 		x.movie = 1;
 		x.starting_time = new Timestamp(20,7,15,0,0,0,0);
@@ -165,24 +211,30 @@ public class DatabaseTests {
 		x.id = 10001;
 		mdao.create(x);
 						
-		// Jetzt muss eine Screening mehr drinnen sein als vorher
+		// there should be a new entry in the database
 		assertTrue(numberOfScreenings < mdao.readAllScreenings().size());
 
-		// Jetzt löschen wir den Screening wieder
+		// delete screening
 		mdao.delete(x);
 		
-		// Jetzt muss Die Anzahl wieder so sein wie vorher
+		// amount should be the same as before
 		assertTrue(numberOfScreenings == mdao.readAllScreenings().size());
 		
 	}
+
 	
+//--------------------------------------------------------------------------------	
+
+	/*
+	 * test BookingDAO
+	 */
 	@Test
 	public void testBookingDAO()	{
 		BookingDAO mdao = new BookingDAO();
 		
 		int numberOfBookings = mdao.readAllBookings().size();
 		
-		// Einen Booking hinzufügen
+		// add a new booking at screening with id 1 and seat id 1
 		Booking x = new Booking();
 		x.screening = 1;
 		x.seat = 1;
@@ -190,27 +242,40 @@ public class DatabaseTests {
 		mdao.create(x);
 		
 						
-		// Jetzt muss eine Booking mehr drinnen sein als vorher
+		// there should be a new booking, test it
 		assertTrue(numberOfBookings < mdao.readAllBookings().size());
 
-		// Jetzt löschen wir den Booking wieder
+		// delete new booking
 		mdao.delete(x);
 		
-		// Jetzt muss Die Anzahl wieder so sein wie vorher
+		// amount should be the same as before
 		assertTrue(numberOfBookings == mdao.readAllBookings().size());
 		
 	}
 	
+	
+	
+//--------------------------------------------------------------------------------	
+
+	/*
+	 * test method reserve() in CustomerDAO
+	 */
 	@Test
 	public void testReserve(){
+		System.out.println("\n\n------------Start timing while testing reserve()------------");
+		// add timing
 		long startTime = System.currentTimeMillis();
 		
+		System.out.println("------------reserve a new seat------------");
+		// reserve seat with id 1 at screening with id 5
 		CustomerDAO cdao = new CustomerDAO();
 		cdao.reserve(1,5);
 		
+		System.out.println("------------check if seat is taken or not------------");
+		// check if taken (it should be taken)
 		assertTrue(cdao.reserve(1,5) == 0);
 		
 		long endTime = System.currentTimeMillis();
-		System.out.println("time: " + (endTime - startTime));
+		System.out.println("-------------Time: " + (endTime - startTime) + "ms -------------");
 	}
 }

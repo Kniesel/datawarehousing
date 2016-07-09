@@ -230,6 +230,7 @@ public class DatabaseTests {
 	 */
 	@Test
 	public void testBookingDAO()	{
+		
 		BookingDAO mdao = new BookingDAO();
 		
 		int numberOfBookings = mdao.readAllBookings().size();
@@ -262,17 +263,20 @@ public class DatabaseTests {
 	 */
 	@Test
 	public void testReserve(){
+		System.out.println("\n\n------------Start timing while testing reserve()------------");
 		// add timing
 		long startTime = System.currentTimeMillis();
 		
+		System.out.println("------------reserve a new seat------------");
 		// reserve seat with id 1 at screening with id 5
 		CustomerDAO cdao = new CustomerDAO();
 		cdao.reserve(1,5);
 		
+		System.out.println("------------check if seat is taken or not------------");
 		// check if taken (it should be taken)
 		assertTrue(cdao.reserve(1,5) == 0);
 		
 		long endTime = System.currentTimeMillis();
-		System.out.println("Time: " + (endTime - startTime));
+		System.out.println("-------------Time: " + (endTime - startTime) + "ms -------------");
 	}
 }

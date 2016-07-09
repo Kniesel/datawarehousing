@@ -154,9 +154,9 @@ public class SeatDAO extends GenericSqlDAO<Seat, Integer> {
 	/**
 	 * gets the seat by combination of hall, seatnr and row
 	 * 
-	 * @param hall hall that the Seat is located at
-	 * @param seatnr number of the Seat
-	 * @param row row that the Seat is in
+	 * @param hall that the Seat is located at
+	 * @param seatnr seatnumber of the Seat
+	 * @param row that the Seat is in
 	 * @return returns a Seat object from the database
 	 */
 	public Integer getSeatID(int hall, int seatnr, int row) {
@@ -182,17 +182,28 @@ public class SeatDAO extends GenericSqlDAO<Seat, Integer> {
 	}
 
 
+	/**
+	 * checks if a seat at a certain screening is taken or not
+	 * 
+	 * @param seat id that is checked 
+	 * @param screening id that is checked
+	 * @return true if no booking exists, false if a booking already exists
+	 */
 	public boolean isFree(int seat, int screening) {
 		PreparedStatement stmt;
 		Check c = new Check();
 		
+		//check if seat is in hall beforehand
 		if (c.seatInHall(seat, screening)) {
-			System.out.println("seat in hall");
 			
+			// if seat is in hall
+			System.out.println("Seat is in hall");
+			
+			// add new screening and seat
 			ScreeningDAO scdao = new ScreeningDAO();
-			
 			Seat s = new Seat();
 			
+			// read from existing seats
 			List<Seat> seats = readAllSeats();
 			for (Seat se : seats){
 				if(se.id == seat) {
@@ -203,19 +214,23 @@ public class SeatDAO extends GenericSqlDAO<Seat, Integer> {
 			Screening sc = scdao.read(screening);
 			
 			try {
-			stmt = conn.prepareStatement("SELECT * FROM BOOKING WHERE FK_SEAT = ? AND FK_SCREENING = ?");
-			stmt.setInt(1, s.id);
-			stmt.setInt(2, sc.id);
-			ResultSet rs = stmt.executeQuery();
-			
-			if (rs.first()){
-				System.out.println("seat not bookable");
-				return false;
-			}
-			else 
-				return true;
+				// check if a booking for a certain seat id with a certain creening id exists
+				stmt = conn.prepareStatement("SELECT * FROM BOOKING WHERE FK_SEAT = ? AND FK_SCREENING = ?");
+				stmt.setInt(1, s.id);
+				stmt.setInt(2, sc.id);
+				ResultSet rs = stmt.executeQuery();
 				
+				//if a booking exists return false
+				if (rs.first()){
+					System.out.println("Seat is not bookable");
+					return false;
+				}
+				//if no booking for this seat at this screening exists, return true
+				else {
+					return true;
+				}
 			} 
+			
 			catch (SQLException e) {
 				e.printStackTrace();
 				System.err.println("Booking failed.");

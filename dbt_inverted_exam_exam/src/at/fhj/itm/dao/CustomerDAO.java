@@ -12,7 +12,6 @@ import at.fhj.itm.obj.Screening;
 import at.fhj.itm.obj.Seat;
 
 
-
 /**
  * Data Access Object for the class Customer 
  * Connects to the database to create, read, update and delete Customers.
@@ -160,28 +159,39 @@ public class CustomerDAO extends GenericSqlDAO<Customer, Integer>{
 	
 	
 	
+	/** reserves a seat at a screening
+	 * 
+	 * @param seat that should be reserved at screening
+	 * @param screening of a movie 
+	 * @return 1 if seat is free and 0 if seat is taken
+	 */
 	public int reserve(int seat, int screening){
 		SeatDAO s = new SeatDAO();
 		ScreeningDAO sc = new ScreeningDAO();
 		BookingDAO b = new BookingDAO();
 		Booking booking = new Booking();
 		
-		int len = b.readAllBookings().size()+1;
+		int len = b.readAllBookings().size() + 1; // +1 for a new id
 		
 		Seat se = s.read(seat);
 		Screening scr = sc.read(screening);
 		
+		// before a booking can be made
+		// check if free or not
+		// if free
 	    if (s.isFree(se.id, scr.id)) {
 	     	//make booking
 	      	booking.id = len;
 	       	booking.seat = seat;
 	       	booking.screening = screening;
 	       	b.create(booking);
-	       	System.out.println("Seat free");
+	       	System.out.println("Seat is free");
 		    return 1;
 	    }
 	   
-	   System.out.println("Seat taken");     
+	   System.out.println("Seat is taken");     
 	   return 0;
-	}
+	}		
+		
+		
 }

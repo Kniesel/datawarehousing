@@ -181,11 +181,11 @@ public class CustomerDAO extends GenericSqlDAO<Customer, Integer>{
 	       	booking.screening = screening;
 	       	b.create(booking);
 	       	
-	       	System.out.println("Seat free");
+	       	System.out.println("Seat is free");
 		    return 1;
 	    }
 	   
-	   System.out.println("Seat taken");     
+	   System.out.println("Seat is taken");     
 	   return 0;
 	}
 }

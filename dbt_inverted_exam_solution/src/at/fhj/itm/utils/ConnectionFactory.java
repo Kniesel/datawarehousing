@@ -7,11 +7,11 @@ import java.sql.*;
 import java.util.Properties;
 
 /**
- * ConnectionFactory. Liefert immer wieder neue Connections zurück.
- * Beim starten der VM wird das DB Initscript automatisch ausgeführt.
+ * ConnectionFactory: returns always new connections.
+ * When starting VM, DB Initscript is automatically called and executed.
  * 
- * @author gue
- *
+ * @author gue (Gerhard Hutter)
+ * 
  */
 public class ConnectionFactory 
 {
@@ -23,17 +23,17 @@ public class ConnectionFactory
 	private static String jdbc_url			= "";
 	private static String app_initscript	= "";
 	
-	// Wird nur 1x aufgerufen
+	// is only called once
 	static
 	{
-		// Alles auslesen
+		// read all
 		Properties props = new Properties();
 		try(InputStream in = ConnectionFactory.class.getClassLoader().getResourceAsStream(DB_PROPFILE))
 		{
 			props.load(in);
 			in.close();
 			
-			// Und auslesen
+			// and read
 			db_username = props.getProperty("db.user");
 			db_password = props.getProperty("db.password");
 			jdbc_driver = props.getProperty("jdbc.driver");
@@ -47,7 +47,7 @@ public class ConnectionFactory
 			System.exit(1);
 		}
 		
-		// Wir probieren ob es den Datenbanktreiber auch gibt
+		// check if database driver exists
 		try 
 		{
 			Class.forName(jdbc_driver);
@@ -55,12 +55,12 @@ public class ConnectionFactory
 		catch (ClassNotFoundException e) 
 		{
 			e.printStackTrace();
-			System.err.println("jdbc.driver konnte nicht geladen werden");
+			System.err.println("jdbc.driver could not be loaded.");
 			System.exit(3);
 		}
 		
-		// Nachdem dieder Block hier nur 1x ausgeführt wird 
-		// initialisieren wir die DB
+		// after this block is only executed once
+		// database gets initialized
 		if(app_initscript != null)
 		{
 			try(InputStream in = ConnectionFactory.class.getClassLoader().getResourceAsStream(app_initscript))
@@ -71,13 +71,13 @@ public class ConnectionFactory
 			catch (IOException e) 
 			{
 				e.printStackTrace();
-				System.err.println("application.initscript nicht gefunden");
+				System.err.println("application.initscript not found.");
 				System.exit(3);
 			}
 			catch(SQLException e)
 			{
 				e.printStackTrace();
-				System.err.println("application.initscript hat einen Fehler geworfen");
+				System.err.println("application.initscript threw an error.");
 				System.exit(4);
 			}
 		}
