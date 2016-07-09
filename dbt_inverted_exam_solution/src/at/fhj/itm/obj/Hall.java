@@ -1,7 +1,7 @@
 package at.fhj.itm.obj;
 
 /**
- * template for the table rooms in the database
+ * template for the table halls in the database
  * 
  * @author Halmschlager Tabea, Kirchmaier Johanna
  *

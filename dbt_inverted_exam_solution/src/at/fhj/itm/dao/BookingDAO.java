@@ -145,8 +145,8 @@ public class BookingDAO extends GenericSqlDAO<Booking, Integer>{
 
 	/**
 	 * gets the room by combination of site and screening
-	 * @param screening screening of the Booking
-	 * @param seat seat of the Booking
+	 * @param screening of the Booking
+	 * @param seat of the Booking
 	 * @return returns a screening object from the database
 	 */
 	public Booking getBooking(int screening, int seat) {

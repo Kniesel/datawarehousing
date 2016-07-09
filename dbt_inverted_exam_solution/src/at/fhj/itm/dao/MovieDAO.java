@@ -146,8 +146,8 @@ public class MovieDAO extends GenericSqlDAO<Movie, Integer>{
 
 	/**
 	 * gets the room by combination of site and name
-	 * @param name name of the Movie
-	 * @param running_time running_time of the Movie
+	 * @param name of the Movie
+	 * @param running_time of the Movie
 	 * @return returns a screening object from the database
 	 */
 	public Movie getMovie(int name, int running_time) {
