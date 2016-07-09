@@ -11,6 +11,7 @@ import at.fhj.itm.obj.Customer;
 
 
 
+
 /**
  * Data Access Object for the class Customer 
  * Connects to the database to create, read, update and delete Customers.
