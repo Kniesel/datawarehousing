@@ -1,4 +1,12 @@
+-- ************************************************************************************************
+-- Drop tables and views in order that the database is created again each time 
+-- ************************************************************************************************
 DROP ALL OBJECTS;
+
+
+-- ************************************************************************************************
+-- Create tables
+-- ************************************************************************************************
 
 CREATE TABLE cinema (
 	id BIGINT PRIMARY KEY,
@@ -48,6 +56,17 @@ CREATE TABLE booking (
 
 
 
+
+
+-- ************************************************************************************************
+-- ************************************************************************************************
+-- ***** TEST DATA
+-- ************************************************************************************************
+-- ************************************************************************************************
+
+-- ************************************************************************************************
+-- CINEMAS
+
 -- Cinemas in Austria
 INSERT INTO cinema(id, name) VALUES (1, 'Graz');
 INSERT INTO cinema(id, name) VALUES (2, 'Wien');
@@ -60,18 +79,16 @@ INSERT INTO cinema(id, name) VALUES (7, 'Salzburg');
 
 
 
+-- ************************************************************************************************
+-- HALLS
 
 -- Halls in Graz
-INSERT INTO hall(id, name, num_of_seats, fk_cinema) VALUES (1, '1', 220, 1);
-INSERT INTO hall(id, name, num_of_seats, fk_cinema) VALUES (2, '2', 220, 1);
-INSERT INTO hall(id, name, num_of_seats, fk_cinema) VALUES (3, '3', 220, 1);
-INSERT INTO hall(id, name, num_of_seats, fk_cinema) VALUES (4, '4', 220, 1);
-INSERT INTO hall(id, name, num_of_seats, fk_cinema) VALUES (5, '5', 220, 1);
-INSERT INTO hall(id, name, num_of_seats, fk_cinema) VALUES (6, '6', 220, 1);
-
-
-
-
+INSERT INTO hall(id, name, num_of_seats, fk_cinema) VALUES (1, '1', 1200, 1);
+INSERT INTO hall(id, name, num_of_seats, fk_cinema) VALUES (2, '2', 1200, 1);
+INSERT INTO hall(id, name, num_of_seats, fk_cinema) VALUES (3, '3', 1200, 1);
+INSERT INTO hall(id, name, num_of_seats, fk_cinema) VALUES (4, '4', 1200, 1);
+INSERT INTO hall(id, name, num_of_seats, fk_cinema) VALUES (5, '5', 1200, 1);
+INSERT INTO hall(id, name, num_of_seats, fk_cinema) VALUES (6, '6', 1200, 1);
 
 -- Halls in Wien
 INSERT INTO hall(id, name, num_of_seats, fk_cinema) VALUES (7, '1', 227, 2);
@@ -124,6 +141,10 @@ INSERT INTO hall(id, name, num_of_seats, fk_cinema) VALUES (42, '6', 299, 7);
 
 
 
+-- ************************************************************************************************
+-- SEATS
+
+-- for test data only seats in cinema Graz are in use 
 INSERT INTO seat(id, seatnr, row, fk_hall) VALUES(1645, 5, 12, 2);
 INSERT INTO seat(id, seatnr, row, fk_hall) VALUES(6522, 2, 14, 6);
 INSERT INTO seat(id, seatnr, row, fk_hall) VALUES(7141, 21, 29, 6);
@@ -7328,6 +7349,8 @@ INSERT INTO seat(id, seatnr, row, fk_hall) VALUES(4656, 16, 27, 4);
 
 
 
+-- ************************************************************************************************
+-- CUSTOMERS
 
 INSERT INTO customer(id, firstname, surname, email, dob) VALUES (1,'Cyrus','Hunt','tellus@Donecegestas.org','1985-01-26');
 INSERT INTO customer(id, firstname, surname, email, dob) VALUES (2,'Jane','Cunningham','eros@congueelitsed.co.uk','1980-02-23');
@@ -7832,6 +7855,10 @@ INSERT INTO customer(id, firstname, surname, email, dob) VALUES (501,'The','Doct
 
 
 
+
+-- ************************************************************************************************
+-- MOVIES
+
 INSERT INTO movie(id, name, running_time) VALUES (1, 'Findet Dory', 103);
 INSERT INTO movie(id, name, running_time) VALUES (2, 'Harry Potter and the Deathly Hallows PART 2', 130);
 INSERT INTO movie(id, name, running_time) VALUES (3, 'Harry Potter and the Deathly Hallows PART 1', 146);
@@ -7845,6 +7872,9 @@ INSERT INTO movie(id, name, running_time) VALUES (10, 'Inception', 140);
 
 
 
+
+-- ************************************************************************************************
+-- SCREENINGS
 
 insert into screening (id, starting_time, fk_movie, fk_hall) values (1, '2016-10-30 06:46:29', 7, 6);
 insert into screening (id, starting_time, fk_movie, fk_hall) values (2, '2016-12-06 19:37:03', 2, 4);
@@ -17850,5 +17880,13 @@ insert into screening (id, starting_time, fk_movie, fk_hall) values (10000, '201
 
 
 
-create view seatsPerScreening as SELECT se.id as seat, sc.id as screening FROM seat se inner join screening sc on se.fk_hall = sc.fk_hall;
+-- ************************************************************************************************
+-- Create view
+-- ************************************************************************************************
+
+CREATE VIEW seatsPerScreening 
+	AS SELECT se.id AS seat, sc.id AS screening 
+	FROM seat se 
+	INNER JOIN screening sc 
+	ON se.fk_hall = sc.fk_hall;
 
