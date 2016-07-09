@@ -9,7 +9,7 @@ import java.sql.SQLException;
  * @author Halmschlager Tabea, Kirchmaier Johanna
  *
  */
-public class Check {
+public class CheckSeatInHall {
 	Connection conn = ConnectionFactory.getConnection();
 
 	/**

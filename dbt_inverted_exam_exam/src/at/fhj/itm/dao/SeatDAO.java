@@ -8,7 +8,7 @@ import java.util.List;
 
 import at.fhj.itm.obj.Screening;
 import at.fhj.itm.obj.Seat;
-import at.fhj.itm.utils.Check;
+import at.fhj.itm.utils.CheckSeatInHall;
 
 /**
  * Data Access Object for the class Seat 
@@ -191,7 +191,7 @@ public class SeatDAO extends GenericSqlDAO<Seat, Integer> {
 	 */
 	public boolean isFree(int seat, int screening) {
 		PreparedStatement stmt;
-		Check c = new Check();
+		CheckSeatInHall c = new CheckSeatInHall();
 		
 		//check if seat is in hall beforehand
 		if (c.seatInHall(seat, screening)) {
